@@ -20,25 +20,17 @@ jobs:
 
       - name: Install Railway CLI
         run: npm install -g @railway/cli
-        
-      - name: Debugging Secret
-        run: echo "RAILWAY_TOKEN is set"
-        env:
-          RAILWAY_TOKEN: ${{ secrets.RAILWAY_PROJECT_TOKEN }}
 
-      - name: Vérification du Token Railway
+      - name: Vérifier que le token Railway est bien défini
         run: |
-          echo "Vérification du Token Railway..."
           if [[ -z "${{ secrets.RAILWAY_PROJECT_TOKEN }}" ]]; then
-            echo "Erreur : RAILWAY_PROJECT_TOKEN est vide !"
+            echo "❌ ERREUR : RAILWAY_PROJECT_TOKEN n'est pas défini dans GitHub Secrets !"
             exit 1
           else
-            echo "RAILWAY_PROJECT_TOKEN détecté ✅"
+            echo "✅ RAILWAY_PROJECT_TOKEN est bien défini."
           fi
 
-      - name: Authentification Railway
+      - name: Déployer sur Railway avec authentication forcée
         run: |
-          echo "${{ secrets.RAILWAY_PROJECT_TOKEN }}" | railway login
-
-      - name: Déployer sur Railway
-        run: railway up --ci
+          export RAILWAY_TOKEN=${{ secrets.RAILWAY_PROJECT_TOKEN }}
+          railway up --ci
