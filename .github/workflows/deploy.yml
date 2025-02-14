@@ -24,12 +24,17 @@ jobs:
       - name: Vérification du Token Railway
         run: |
           echo "🔍 Vérification du token Railway..."
-          if [[ -z ${{ secrets.RAILWAY_PROJECT_TOKEN }} ]]; then
-            echo "❌ ERREUR : La variable d'environnement RAILWAY_TOKEN est vide !"
+          if [[ -z "${{ secrets.RAILWAY_PROJECT_TOKEN }}" ]]; then
+            echo "❌ ERREUR : La variable d'environnement RAILWAY_PROJECT_TOKEN est vide !"
             exit 1
           else
-            echo "✅ RAILWAY_TOKEN est bien défini."
+            echo "✅ RAILWAY_PROJECT_TOKEN est bien défini."
           fi
+
+      - name: Link to Railway project
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_PROJECT_TOKEN }}
+        run: railway link --project 3d8b0084-d13f-475f-961c-55372e2941f7
 
       - name: Déployer sur Railway
         env:
