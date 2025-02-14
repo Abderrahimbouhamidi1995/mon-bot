@@ -4,12 +4,16 @@ FROM rasa/rasa:latest-full
 # Définir le répertoire de travail
 WORKDIR /app
 
-# Copier le projet
-COPY . /app
+# Copier uniquement les fichiers nécessaires
+COPY config.yml /app/config.yml
+COPY domain.yml /app/domain.yml
+COPY data/ /app/data/
 
-COPY models/ /app/models/
+# Exécuter l'entraînement du modèle
+RUN rasa train
 
-RUN rasa train --fixed-model-name bot --domain domain.yml --data data --out models
+# Exposer le port 5005 pour l'API Rasa
+EXPOSE 5005
 
-# Lancer le bot en mode serveur API
-CMD ["run", "-m", "models", "--enable-api", "--cors", "*", "--debug"]
+# Lancer le bot avec le modèle entraîné
+CMD ["rasa", "run", "--model", "/app/models", "--enable-api", "--cors", "*", "--debug"]
