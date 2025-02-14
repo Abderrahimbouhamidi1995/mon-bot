@@ -8,8 +8,6 @@ WORKDIR /app
 COPY . /app
 
 COPY models/ /app/models/
-# Exposer le port 5005 pour les requêtes API Rasa
-EXPOSE 5005
 
 RUN rasa train --fixed-model-name bot --domain domain.yml --data data --out models
 
