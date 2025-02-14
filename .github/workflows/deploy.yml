@@ -20,6 +20,9 @@ jobs:
 
       - name: Install Railway CLI
         run: npm install -g @railway/cli
+        
+      - name: Debugging Secret
+        run: echo "RAILWAY_TOKEN=${{ secrets.RAILWAY_PROJECT_TOKEN }}"
 
       - name: Deploy to Railway
         env:
