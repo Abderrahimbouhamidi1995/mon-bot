@@ -26,7 +26,19 @@ jobs:
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_PROJECT_TOKEN }}
 
-      - name: Deploy to Railway
+      - name: Vérification du Token Railway
         run: |
-          export RAILWAY_TOKEN=${{ secrets.RAILWAY_PROJECT_TOKEN }}
+          echo "Vérification du Token Railway..."
+          if [[ -z "${{ secrets.RAILWAY_PROJECT_TOKEN }}" ]]; then
+            echo "Erreur : RAILWAY_PROJECT_TOKEN est vide !"
+            exit 1
+          else
+            echo "RAILWAY_PROJECT_TOKEN détecté ✅"
+          fi
+
+      - name: Déployer sur Railway
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_PROJECT_TOKEN }}
+        run: |
+          echo "Lancement du déploiement..."
           railway up --ci
