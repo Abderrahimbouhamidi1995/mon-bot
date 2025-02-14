@@ -6,36 +6,7 @@ intents:
 responses:
   utter_salut:
     - text: |-
-        Bonjour, je suis Jaw@b l’assistant virtuel d’Attijariwafa bank. 
-        Je suis disponible 24h/24 et 7j/7 pour vous aider et répondre à vos questions.
-        <br>
-        <br>
-        Posez-moi directement votre question 💬 ou faites un choix à partir du menu👇
-        <br>
-        <br>
-        <i style="font-size: 10px; display: block;">
-        Dans un souci de confidentialité, veillez à ne pas saisir des données confidentielles ou à caractère personnel (Nom, prénom, données de carte bancaire, CIN, etc.) au niveau de la boîte de dialogue.
-        </i>
-      buttons:
-        - payload: /decouvrir_offre_awb
-          title: Découvrir l'offre Attijariwafa Bank
-        - payload: /besoin_assistance
-          title: Besoin d'assistance
-        - payload: /parcourir_reseau
-          title: Parcourir notre réseau
-  utter_ask_return_main_menu:
-    - buttons:
-        - payload: /return_main_menu
-          title: Menu principal
-      text: "Souhaitez-vous revenir au ?"
-
-  utter_ask_feedback:
-    - buttons:
-        - payload: /feedback_positif
-          title: 👍
-        - payload: /feedback_negatif
-          title: 👎
-      text: "Ai-je bien répondu à votre question ?"
+        Bonjour ! 😊 Je suis votre assistant virtuel. Comment puis-je vous aider aujourd'hui ?
 
 session_config:
   session_expiration_time: 60
