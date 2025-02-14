@@ -36,7 +36,9 @@ jobs:
             echo "RAILWAY_PROJECT_TOKEN détecté ✅"
           fi
 
-      - name: Déployer sur Railway
+      - name: Authentification Railway
         run: |
-          echo "Lancement du déploiement..."
-          railway up --ci -- --token="${{ secrets.RAILWAY_PROJECT_TOKEN }}"
+          echo "${{ secrets.RAILWAY_PROJECT_TOKEN }}" | railway login
+
+      - name: Déployer sur Railway
+        run: railway up --ci
