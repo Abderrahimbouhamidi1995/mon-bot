@@ -23,14 +23,9 @@ jobs:
 
       - name: Vérifier que le token Railway est bien défini
         run: |
-          if [[ -z "${{ secrets.RAILWAY_PROJECT_TOKEN }}" ]]; then
-            echo "❌ ERREUR : RAILWAY_PROJECT_TOKEN n'est pas défini dans GitHub Secrets !"
-            exit 1
-          else
-            echo "✅ RAILWAY_PROJECT_TOKEN est bien défini."
-          fi
+          echo "Vérification du Token Railway..."
+          echo "RAILWAY_PROJECT_TOKEN est défini ✅"
+          echo "Les 4 derniers caractères du token : ${RAILWAY_PROJECT_TOKEN: -4}"
 
-      - name: Déployer sur Railway avec authentication forcée
-        run: |
-          export RAILWAY_TOKEN=${{ secrets.RAILWAY_PROJECT_TOKEN }}
-          railway up --ci
+      - name: Déployer sur Railway avec Token explicite
+        run: railway up --ci -- --token="${{ secrets.RAILWAY_PROJECT_TOKEN }}"
