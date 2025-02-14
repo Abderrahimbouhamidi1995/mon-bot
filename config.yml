@@ -30,11 +30,3 @@ pipeline:
 
 policies:
 - name: RulePolicy
-
-
-importers:
-- name: MultiProjectImporter
-
-
-imports:
-- projects/dotation
