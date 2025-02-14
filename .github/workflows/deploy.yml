@@ -31,17 +31,10 @@ jobs:
             echo "✅ RAILWAY_PROJECT_TOKEN est bien défini."
           fi
 
-      - name: Authentification Railway
-        env:
-          RAILWAY_TOKEN: ${{ secrets.RAILWAY_PROJECT_TOKEN }}
-        run: railway login --browserless
-
-      - name: Link to Railway project
-        env:
-          RAILWAY_TOKEN: ${{ secrets.RAILWAY_PROJECT_TOKEN }}
-        run: railway link --project 3d8b0084-d13f-475f-961c-55372e2941f7
+      - name: Configurer le token Railway dans l'environnement CI/CD
+        run: |
+          echo "📌 Configuration de Railway..."
+          railway env set RAILWAY_TOKEN="${{ secrets.RAILWAY_PROJECT_TOKEN }}"
 
       - name: Déployer sur Railway
-        env:
-          RAILWAY_TOKEN: ${{ secrets.RAILWAY_PROJECT_TOKEN }}
         run: railway up --ci
