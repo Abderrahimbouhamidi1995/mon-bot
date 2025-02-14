@@ -24,7 +24,7 @@ jobs:
       - name: Vérification du Token Railway
         run: |
           echo "🔍 Vérification du token Railway..."
-          if [[ -z "$RAILWAY_TOKEN" ]]; then
+          if [[ -z ${{ secrets.RAILWAY_PROJECT_TOKEN }} ]]; then
             echo "❌ ERREUR : La variable d'environnement RAILWAY_TOKEN est vide !"
             exit 1
           else
