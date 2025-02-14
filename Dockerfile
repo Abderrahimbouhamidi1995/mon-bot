@@ -5,13 +5,13 @@ FROM rasa/rasa:latest-full
 WORKDIR /app
 
 # Copier le projet
-COPY . .
+COPY . /app
 
 COPY models/ /app/models/
 # Exposer le port 5005 pour les requêtes API Rasa
 EXPOSE 5005
 
-RUN rasa train
+RUN rasa train --fixed-model-name bot --domain domain.yml --data data --out models
 
 # Lancer le bot en mode serveur API
 CMD ["run", "-m", "models", "--enable-api", "--cors", "*", "--debug"]
