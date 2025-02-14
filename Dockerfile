@@ -10,5 +10,7 @@ COPY . .
 # Exposer le port 5005 pour les requêtes API Rasa
 EXPOSE 5005
 
+RUN rasa train
+
 # Lancer le bot en mode serveur API
 CMD ["run", "-m", "models", "--enable-api", "--cors", "*", "--debug"]
