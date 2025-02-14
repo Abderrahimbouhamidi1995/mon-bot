@@ -31,6 +31,11 @@ jobs:
             echo "✅ RAILWAY_PROJECT_TOKEN est bien défini."
           fi
 
+      - name: Authentification Railway
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_PROJECT_TOKEN }}
+        run: railway login --browserless
+
       - name: Link to Railway project
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_PROJECT_TOKEN }}
