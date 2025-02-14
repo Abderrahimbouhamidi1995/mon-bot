@@ -8,6 +8,7 @@ WORKDIR /app
 COPY config.yml /app/config.yml
 COPY domain.yml /app/domain.yml
 COPY data/ /app/data/
+COPY projects/ /app/projects/
 
 # Exécuter l'entraînement du modèle
 RUN rasa train
