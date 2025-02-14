@@ -4,8 +4,8 @@ WORKDIR /app
 
 COPY config.yml /app/config.yml
 COPY domain.yml /app/domain.yml
-COPY data/ /app/data/nlu.yml
-COPY data/ /app/data/rules.yml
+COPY data/nlu.yml /app/data/nlu.yml
+COPY data/data/rules.yml /app/data/rules.yml
 EXPOSE 5005
 
 RUN rasa train
