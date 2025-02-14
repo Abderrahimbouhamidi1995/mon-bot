@@ -22,9 +22,11 @@ jobs:
         run: npm install -g @railway/cli
         
       - name: Debugging Secret
-        run: echo "RAILWAY_TOKEN=${{ secrets.RAILWAY_PROJECT_TOKEN }}"
-
-      - name: Deploy to Railway
+        run: echo "RAILWAY_TOKEN is set"
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_PROJECT_TOKEN }}
-        run: railway up --ci
+
+      - name: Deploy to Railway
+        run: |
+          export RAILWAY_TOKEN=${{ secrets.RAILWAY_PROJECT_TOKEN }}
+          railway up --ci
