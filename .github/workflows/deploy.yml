@@ -21,14 +21,7 @@ jobs:
       - name: Install Railway CLI
         run: npm install -g @railway/cli
 
-      - name: Vérification du Token Railway
+      - name: Déployer sur Railway
         run: |
-          if [[ -z "${{ secrets.RAILWAY_PROJECT_TOKEN }}" ]]; then
-            echo "❌ ERREUR : Le token Railway est VIDE !"
-            exit 1
-          else
-            echo "✅ Le token Railway est bien défini."
-          fi
-
-      - name: Déployer sur Railway avec Token explicite
-        run: railway up --ci -- --token="${{ secrets.RAILWAY_PROJECT_TOKEN }}"
+          echo "Lancement du déploiement..."
+          RAILWAY_TOKEN=${{ secrets.RAILWAY_PROJECT_TOKEN }} railway up --ci
