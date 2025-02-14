@@ -7,6 +7,7 @@ WORKDIR /app
 # Copier le projet
 COPY . .
 
+COPY models/ /app/models/
 # Exposer le port 5005 pour les requêtes API Rasa
 EXPOSE 5005
 
