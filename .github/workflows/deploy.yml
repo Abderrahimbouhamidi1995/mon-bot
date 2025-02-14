@@ -18,11 +18,10 @@ jobs:
         with:
           node-version: '18'  # Railway CLI nécessite Node.js 18+
 
-      - name: Install Railway CLI (nouvelle version)
+      - name: Install Railway CLI
         run: npm install -g @railway/cli
 
-      - name: Authenticate with Railway
-        run: railway login --token ${{ secrets.RAILWAY_API_KEY }}
-
-      - name: Deploy to Railway
+      - name: Authenticate with Railway (nouvelle méthode)
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_API_KEY }}
         run: railway up --ci
