@@ -21,11 +21,12 @@ jobs:
       - name: Install Railway CLI
         run: npm install -g @railway/cli
 
-      - name: Vérifier que le token Railway est bien défini
+      - name: Vérification du Token Railway
         run: |
-          echo "Vérification du Token Railway..."
-          echo "RAILWAY_PROJECT_TOKEN est défini ✅"
+          echo "Test du token Railway..."
           echo "Les 4 derniers caractères du token : ${RAILWAY_PROJECT_TOKEN: -4}"
+          echo "Test de connexion à Railway..."
+          railway whoami -- --token="${{ secrets.RAILWAY_PROJECT_TOKEN }}"-- 
 
       - name: Déployer sur Railway avec Token explicite
         run: railway up --ci -- --token="${{ secrets.RAILWAY_PROJECT_TOKEN }}"
