@@ -21,6 +21,16 @@ jobs:
       - name: Install Railway CLI
         run: npm install -g @railway/cli
 
+      - name: Vérification du Token Railway
+        run: |
+          echo "🔍 Vérification du token Railway..."
+          if [[ -z "$RAILWAY_TOKEN" ]]; then
+            echo "❌ ERREUR : La variable d'environnement RAILWAY_TOKEN est vide !"
+            exit 1
+          else
+            echo "✅ RAILWAY_TOKEN est bien défini."
+          fi
+
       - name: Déployer sur Railway
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_PROJECT_TOKEN }}
