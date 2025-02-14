@@ -37,8 +37,6 @@ jobs:
           fi
 
       - name: Déployer sur Railway
-        env:
-          RAILWAY_TOKEN: ${{ secrets.RAILWAY_PROJECT_TOKEN }}
         run: |
           echo "Lancement du déploiement..."
-          railway up --ci
+          railway up --ci --token="${{ secrets.RAILWAY_PROJECT_TOKEN }}"
