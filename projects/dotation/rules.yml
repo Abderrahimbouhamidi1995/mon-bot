@@ -1,0 +1,35 @@
+version: "3.1"
+
+rules:
+
+  - rule: faq_activation_dotation
+    steps:
+      - intent: faq_activation_dotation
+      - action: utter_faq_activation_dotation
+      - action: utter_ask_return_main_menu
+
+  - rule: faq_documents_activation_dotation
+    steps:
+      - intent: faq_documents_activation_dotation
+      - action: utter_faq_documents_activation_dotation
+      - action: utter_ask_return_main_menu
+
+  - rule: faq_recuperation_dotataion_ecommerce
+    steps:
+      - intent: faq_recuperation_dotataion_ecommerce
+      - action: utter_faq_recuperation_dotataion
+      - action: utter_ask_return_main_menu
+      - action: utter_ask_feedback
+
+  - rule: faq_dotation_cumul
+    steps:
+      - intent: faq_dotation_cumul
+      - action: utter_faq_dotation_cumul
+      - action: utter_ask_return_main_menu
+
+  - rule: faq_activation_dotation_ecommerce
+    steps:
+      - intent: faq_activation_dotation_ecommerce
+      - action: utter_faq_activation_dotation_ecommerce
+      - action: utter_ask_return_main_menu
+      - action: utter_ask_feedback
