@@ -9,6 +9,7 @@ COPY data/nlu.yml data/rules.yml /app/data/
 # Copier également les tests et le fichier CSV de test
 COPY tests/ /app/tests/
 COPY requirements.txt /app/
+COPY .git /app/.git
 
 # Installer les dépendances supplémentaires
 USER root

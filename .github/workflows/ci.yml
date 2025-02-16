@@ -12,17 +12,17 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
 
       - name: Build Docker image (Test Stage)
-        run: |
-          docker build --target test -t my-bot:test .
+        run: docker build --target test -t my-bot:test .
 
       - name: Run tests in Docker container
-        run: |
-          docker run --rm my-bot:test
+        run: docker run --rm my-bot:test
 
   deploy:
     name: Deploy Rasa Bot Container
@@ -32,14 +32,14 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
 
       - name: Build Docker image (Production Stage)
-        run: |
-          docker build --target prod -t my-bot:prod .
+        run: docker build --target prod -t my-bot:prod .
 
       - name: Deploy Docker container
-        run: |
-          docker run -d --rm -p 5011:5005 my-bot:prod
+        run: docker run -d --rm -p 5011:5005 my-bot:prod
