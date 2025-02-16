@@ -21,7 +21,7 @@ CMD ["bash", "-c", "\
     echo 'Starting training...' && \
     rasa train && \
     echo 'Launching Rasa server...' && \
-    rasa run --enable-api --cors '*' --debug & \
+    rasa run --port 5005 --enable-api --cors '*' --debug & \
     PID=$! && \
     echo 'Waiting for Rasa server to be ready...' && \
     until curl -s http://localhost:5005/status; do sleep 5; done && \
