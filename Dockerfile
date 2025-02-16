@@ -15,11 +15,11 @@ USER root
 RUN pip install --no-cache-dir --upgrade pip && pip install --no-cache-dir -r requirements.txt
 
 # ---- Test Stage ----
+# ---- Test Stage ----
 FROM base AS test
 ENTRYPOINT []
-# Entraîner le modèle et lancer les tests Robot Framework
-CMD ["bash", "-c", "rasa train && robot tests/utterances_tests.robot"]
-
+CMD ["bash", "-c", "rasa train && rasa run --enable-api --cors '*' --debug & sleep 20 && robot tests/utterances_tests.robot"]
+    
 # ---- Production Stage ----
 FROM base AS prod
 # On suppose que le modèle a été entraîné par le stage test et se trouve dans /app/models
