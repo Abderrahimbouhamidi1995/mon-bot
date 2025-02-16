@@ -17,6 +17,7 @@ RUN pip install --no-cache-dir --upgrade pip && pip install --no-cache-dir -r re
 # ---- Test Stage ----
 FROM base AS test
 ENTRYPOINT []
+EXPOSE 5005
 CMD ["bash", "-c", "\
     echo 'Starting training...' && \
     rasa train && \
