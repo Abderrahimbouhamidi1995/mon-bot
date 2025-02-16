@@ -15,10 +15,20 @@ USER root
 RUN pip install --no-cache-dir --upgrade pip && pip install --no-cache-dir -r requirements.txt
 
 # ---- Test Stage ----
-# ---- Test Stage ----
 FROM base AS test
 ENTRYPOINT []
-CMD ["bash", "-c", "rasa train && rasa run --enable-api --cors '*' --debug & sleep 20 && robot tests/utterances_tests.robot"]
+CMD ["bash", "-c", "\
+    echo 'Starting training...' && \
+    rasa train && \
+    echo 'Launching Rasa server...' && \
+    rasa run --enable-api --cors '*' --debug & \
+    PID=$! && \
+    echo 'Waiting for Rasa server to be ready...' && \
+    until curl -s https://mon-bot-gy1a.onrender.com/:5005/health; do sleep 5; done && \
+    echo 'Server is up, running tests...' && \
+    robot tests/utterances_tests.robot && \
+    echo 'Tests finished, stopping Rasa server...' && \
+    kill $PID"]
     
 # ---- Production Stage ----
 FROM base AS prod
