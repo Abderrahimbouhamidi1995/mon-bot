@@ -14,7 +14,6 @@
     # Installer Git et les certificats CA, ainsi que les dépendances supplémentaires
     USER root
     RUN apt-get update && apt-get install -y git ca-certificates && update-ca-certificates
-    USER 1001
     RUN pip install --no-cache-dir --upgrade pip && pip install --no-cache-dir -r requirements.txt
     
     # ---- Test Stage ----
