@@ -42,7 +42,8 @@ jobs:
 
       - name: Rollback last commit
         run: |
-          if grep -Fq "Incorrect" /app/tests/test_results.csv; then
+          RESULT_FILE=$(find /app -type f -name test_results.csv | head -n 1)
+          if [ -n "$RESULT_FILE" ] && grep -Fq "Incorrect" "$RESULT_FILE"; then
             echo "Rolling back last commit..."
             git reset --hard HEAD~1
             git push origin HEAD --force
