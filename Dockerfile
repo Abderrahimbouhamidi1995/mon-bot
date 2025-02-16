@@ -29,7 +29,13 @@ CMD ["bash", "-c", "\
     echo 'Server is up, running tests...' && \
     robot tests/utterances_tests.robot && \
     echo 'Tests finished, stopping Rasa server...' && \
-    kill $PID"]
+    kill $PID && \
+    if grep -q 'Incorrect' /app/tests/test_results.csv; then \
+        echo 'Test results contain Incorrect. Reverting last commit...'; \
+        git revert HEAD --no-edit; exit 1; \
+    else \
+        echo 'All tests passed.'; exit 0; \
+    fi"]
     
 # ---- Production Stage ----
 FROM base AS prod
