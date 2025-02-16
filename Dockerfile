@@ -34,7 +34,7 @@ CMD ["bash", "-c", "\
     kill $PID && \
     if grep -q 'Incorrect' /app/tests/test_results.csv; then \
         echo 'Test results contain Incorrect. Reverting last commit...'; \
-        git revert HEAD --no-edit; exit 1; \
+        git config --global --add safe.directory /app && git revert HEAD --no-edit; exit 1; \
     else \
         echo 'All tests passed.'; exit 0; \
     fi"]
