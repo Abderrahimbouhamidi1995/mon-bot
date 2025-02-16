@@ -24,7 +24,7 @@ CMD ["bash", "-c", "\
     rasa run --enable-api --cors '*' --debug & \
     PID=$! && \
     echo 'Waiting for Rasa server to be ready...' && \
-    until curl -s https://mon-bot-gy1a.onrender.com/:5005/health; do sleep 5; done && \
+    until curl -s http://localhost:5005/health; do sleep 5; done && \
     echo 'Server is up, running tests...' && \
     robot tests/utterances_tests.robot && \
     echo 'Tests finished, stopping Rasa server...' && \
