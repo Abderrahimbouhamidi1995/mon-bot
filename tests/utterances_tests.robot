@@ -5,14 +5,14 @@ Library           Collections
 Library           String
 
 *** Variables ***
-${API_URL}        http://localhost/webhooks/rest/webhook
+${API_URL}        http://localhost:5005/webhooks/rest/webhook
 ${SENDER}         test_user
 ${CSV_FILE}       ./tests/testdata.csv
 ${CSV_OUTPUT}     ./tests/test_results.csv
 
 *** Test Cases ***
 Lire et Tester Toutes les Utterances
-    Create Session    rasa_session    ${API_URL}    headers={"Content-Type": "application/json"}
+    Create Session    rasa_session    ${API_URL}    headers={"Content-Type": "application/json"} verify=True
     ${data}=    Lire CSV    ${CSV_FILE}
     ${results}=    Create List
     FOR    ${row}    IN    @{data}
