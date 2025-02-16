@@ -25,7 +25,14 @@ jobs:
         run: docker build --target test -t my-bot:test .
 
       - name: Run tests in Docker container
-        run: docker run --rm -e PAT_TOKEN=${{ secrets.PAT_TOKEN }} my-bot:test
+        run: docker run --rm -v ${{ github.workspace }}/tests:/app/tests -e PAT_TOKEN=${{ secrets.PAT_TOKEN }} my-bot:test
+
+      - name: Upload test results artifact
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: test_results
+          path: tests/test_results.csv
 
   rollback:
     name: Rollback Last Commit if Tests Fail
@@ -40,15 +47,25 @@ jobs:
           token: ${{ secrets.PAT_TOKEN }}
           persist-credentials: true
 
+      - name: Download test results artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: test_results
+
       - name: Rollback last commit
         run: |
-          if grep -Fq "Incorrect" ../../app/tests/test_results.csv; then
-            echo "Rolling back last commit..."
-            git reset --hard HEAD~1
-            git push origin HEAD --force
+          if grep -Fq "Incorrect" tests/test_results.csv; then
+            echo "Rolling back last commit...";
+            git config --global --add safe.directory $(pwd);
+            git config --global user.email "a.bouhamidi@outlook.com";
+            git config --global user.name "Abderrahimbouhamidi1995";
+            git reset --hard HEAD~1;
+            git push https://$PAT_TOKEN@github.com/Abderrahimbouhamidi1995/mon-bot.git HEAD --force;
           else
             echo "No rollback needed.";
           fi
+        env:
+          PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
 
   deploy:
     name: Deploy Rasa Bot Container
