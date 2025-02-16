@@ -16,6 +16,7 @@ RUN pip install --no-cache-dir --upgrade pip && pip install --no-cache-dir -r re
 
 # ---- Test Stage ----
 FROM base AS test
+ENTRYPOINT []
 # Entraîner le modèle et lancer les tests Robot Framework
 CMD ["bash", "-c", "rasa train && robot tests/utterances_tests.robot"]
 
