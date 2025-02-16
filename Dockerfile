@@ -1,14 +1,24 @@
-FROM rasa/rasa:latest-full
-
+# ---- Base Stage ----
+FROM rasa/rasa:latest-full AS base
 WORKDIR /app
 
-COPY config.yml /app/config.yml
-COPY domain.yml /app/domain.yml
-COPY data/nlu.yml /app/data/nlu.yml
-COPY data/rules.yml /app/data/rules.yml
-EXPOSE 5005
+# Copier les fichiers essentiels de configuration et les données
+COPY config.yml domain.yml /app/
+COPY data/nlu.yml data/rules.yml /app/data/
 
-RUN rasa train
+# Copier également les tests et le fichier CSV de test
+COPY tests/ /app/tests/
+COPY requirements.txt /app/
 
+# Installer les dépendances supplémentaires
+RUN pip install --upgrade pip && pip install -r requirements.txt
 
-CMD ["rasa", "run", "--model", "/app/models", "--enable-api", "--cors", "*", "--debug"]
+# ---- Test Stage ----
+FROM base AS test
+# Entraîner le modèle et lancer les tests Robot Framework
+CMD ["bash", "-c", "rasa train && robot tests/utterances_tests.robot"]
+
+# ---- Production Stage ----
+FROM base AS prod
+# On suppose que le modèle a été entraîné par le stage test et se trouve dans /app/models
+CMD ["rasa", "run", "--model", "/app/models", "--enable-api", "--cors", "*", "--debug"]    
