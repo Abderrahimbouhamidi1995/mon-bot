@@ -16,3 +16,22 @@ nlu:
     - bonjour
     - bonsoir
     - bon après-mid
+
+- intent: aide
+  examples: |
+    - Peux-tu m'aider ?
+    - J'ai besoin d'aide
+    - Comment tu peux m'assister ?
+    - Que fais-tu exactement ?
+  
+- intent: fonctionnement
+  examples: |
+    - Comment ça fonctionne ?
+    - Peux-tu expliquer ton fonctionnement ?
+    - Comment utiliser ce bot ?
+  
+- intent: utilisation
+  examples: |
+    - À quoi sers-tu ?
+    - Pourquoi devrais-je t'utiliser ?
+    - En quoi es-tu utile ?

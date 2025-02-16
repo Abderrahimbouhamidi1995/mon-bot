@@ -6,3 +6,18 @@ rules:
   steps:
     - intent: salut
     - action: utter_salut
+
+- rule: Répondre aux demandes d'aide
+  steps:
+    - intent: aide
+    - action: utter_aide
+
+- rule: Expliquer le fonctionnement
+  steps:
+    - intent: fonctionnement
+    - action: utter_fonctionnement
+
+- rule: Expliquer l'utilité du bot
+  steps:
+    - intent: utilisation
+    - action: utter_utilisation
