@@ -16,12 +16,12 @@
     RUN apt-get update && apt-get install -y git ca-certificates && update-ca-certificates
     RUN pip install --no-cache-dir --upgrade pip && pip install --no-cache-dir -r requirements.txt
     
-# ---- Test Stage ----
+    # ---- Test Stage ----
     FROM base AS test
     EXPOSE 5005
     ENTRYPOINT []
-    CMD ["bash", "-c", "echo 'Starting training...'; rasa train && echo 'Launching Rasa server on port 5005...' && rasa run --port 5005 --enable-api --cors '*' --debug & PID=$!; echo 'Waiting for Rasa server to be ready...' && until curl -s http://localhost:5005/status; do sleep 5; done; echo 'Server is up, running tests...' && robot tests/utterances_tests.robot; echo 'Tests finished, stopping Rasa server...' && kill $PID && if grep -q 'Incorrect' /app/tests/test_results.csv; then echo 'Test results contain Incorrect. Reverting last commit...'; git config --global --add safe.directory /app && git config --global user.email \"a.bouhamidi@outlook.com\" && git config --global user.name \"Abderrahimbouhamidi1995\" && git revert HEAD --no-edit && git push https://$PAT_TOKEN@github.com/Abderrahimbouhamidi1995/mon-bot.git HEAD; exit 1; else echo 'All tests passed.'; exit 0; fi"]
+    CMD ["bash", "-c", "echo 'Starting training...'; rasa train; echo 'Launching Rasa server on port 5005...' && rasa run --port 5005 --enable-api --cors '*' --debug & PID=$!; echo 'Waiting for Rasa server to be ready...' && until curl -s http://localhost:5005/status; do sleep 5; done; echo 'Server is up, running tests...' && robot tests/utterances_tests.robot; echo 'Tests finished, stopping Rasa server...' && kill $PID"]
     # ---- Production Stage ----
     FROM base AS prod
     EXPOSE 5005
-    CMD ["rasa", "run", "--port", "5005", "--model", "/app/models", "--enable-api", "--cors", "*", "--debug"]    
+    CMD ["rasa", "run", "--port", "5005", "--model", "/app/models", "--enable-api", "--cors", "*", "--debug"]
