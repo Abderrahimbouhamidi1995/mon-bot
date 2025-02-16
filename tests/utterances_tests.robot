@@ -5,7 +5,7 @@ Library           Collections
 Library           String
 
 *** Variables ***
-${API_URL}        https://mon-bot-gy1a.onrender.com/webhooks/rest/webhook
+${API_URL}        https://localhost/webhooks/rest/webhook
 ${SENDER}         test_user
 ${CSV_FILE}       ./tests/testdata.csv
 ${CSV_OUTPUT}     ./tests/test_results.csv
