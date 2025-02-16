@@ -11,6 +11,7 @@ COPY tests/ /app/tests/
 COPY requirements.txt /app/
 
 # Installer les dépendances supplémentaires
+USER root
 RUN pip install --no-cache-dir --upgrade pip && pip install --no-cache-dir -r requirements.txt
 
 # ---- Test Stage ----
