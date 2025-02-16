@@ -23,7 +23,7 @@ EXPOSE 5005
 CMD ["bash", "-c", "\
     echo 'Starting training...' && \
     rasa train && \
-    echo 'Launching Rasa server...' && \
+    echo 'Launching Rasa server on port 5005...' && \
     rasa run --port 5005 --enable-api --cors '*' --debug & \
     PID=$! && \
     echo 'Waiting for Rasa server to be ready...' && \
@@ -39,8 +39,7 @@ CMD ["bash", "-c", "\
         git config --global --add safe.directory /app && \
         git revert HEAD --no-edit; exit 1; \    else \
         echo 'All tests passed.'; exit 0; \
-    fi"]
-    
+    fi"]    
 # ---- Production Stage ----
 FROM base AS prod
 # On suppose que le modèle a été entraîné par le stage test et se trouve dans /app/models
