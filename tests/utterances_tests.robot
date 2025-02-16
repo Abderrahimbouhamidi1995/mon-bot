@@ -7,8 +7,8 @@ Library           String
 *** Variables ***
 ${API_URL}        https://mon-bot-gy1a.onrender.com/webhooks/rest/webhook
 ${SENDER}         test_user
-${CSV_FILE}       C:/Users/hp/Desktop/mon-bot/tests/testdata.csv
-${CSV_OUTPUT}     C:/Users/hp/Desktop/mon-bot/tests/test_results.csv
+${CSV_FILE}       ./tests/testdata.csv
+${CSV_OUTPUT}     ./tests/test_results.csv
 
 *** Test Cases ***
 Lire et Tester Toutes les Utterances
