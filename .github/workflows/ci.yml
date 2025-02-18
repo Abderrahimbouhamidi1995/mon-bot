@@ -3,7 +3,7 @@ name: CI/CD for Rasa Bot with Docker Compose
 on:
   push:
     branches:
-      - main
+      - test
 
 jobs:
   build_and_test:
