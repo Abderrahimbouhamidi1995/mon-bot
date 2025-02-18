@@ -17,7 +17,7 @@
     FROM base AS test
     EXPOSE 5005
     ENTRYPOINT []
-    CMD ["bash", "-c", "echo 'Starting training...'; rasa train; echo 'Launching Rasa server on port 5005...' && rasa run --port 5005 --enable-api --cors '*' --debug & PID=$!; echo 'Waiting for Rasa server to be ready...' && until curl -s http://localhost:5005/status; do sleep 5; done; echo 'Server is up, running tests...' && robot tests/utterances_tests.robot; echo 'Tests finished, stopping Rasa server...' && kill $PID"]
+    CMD ["bash", "-c", "echo 'Starting training...'; rasa train --out models; echo 'Launching Rasa server on port 5005...' && rasa run --port 5005 --enable-api --cors '*' --debug & PID=$!; echo 'Waiting for Rasa server to be ready...' && until curl -s http://localhost:5005/status; do sleep 5; done; echo 'Server is up, running tests...' && robot tests/utterances_tests.robot; echo 'Tests finished, stopping Rasa server...' && kill $PID"]
     # ---- Production Stage ----
     FROM base AS prod
     EXPOSE 5005
