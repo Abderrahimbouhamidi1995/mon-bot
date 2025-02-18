@@ -70,7 +70,7 @@ jobs:
           cat "$RESULT_FILE"
           echo "Found test results file: $RESULT_FILE"
           if [ -n "$RESULT_FILE" ] && grep -Fq "Incorrect" "$RESULT_FILE"; then
-            BRANCH_NAME="test
+            BRANCH_NAME="test"
             echo "Creating rollback branch: $BRANCH_NAME"
             git checkout -b "$BRANCH_NAME"
             echo "Rolling back last commit..."
