@@ -26,7 +26,13 @@ jobs:
 
       - name: Run tests in Docker container
         run: docker run --rm -v ${{ github.workspace }}/tests:/app/tests -e PAT_TOKEN=${{ secrets.PAT_TOKEN }} my-bot:test      
-
+      
+      - name: Upload test results artifact
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: test_results
+          path: app/tests/test_results.csv
   rollback:
     name: Rollback Last Commit if Tests Fail
     runs-on: ubuntu-latest
@@ -39,7 +45,12 @@ jobs:
           fetch-depth: 0
           token: ${{ secrets.PAT_TOKEN }}
           persist-credentials: true
-
+      
+      - name: Download test results artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: test_results
+      
       - name: Rollback last commit
         run: |
           echo "Listing files in tests directory:"; ls -la tests
