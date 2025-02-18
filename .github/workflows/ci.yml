@@ -85,9 +85,8 @@ jobs:
             echo "Test results do NOT contain 'Incorrect'. Creating pull request to merge test branch into main...";
             CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
             echo "Current branch: $CURRENT_BRANCH"
-            PR_URL=$(gh pr create --base main --head "$CURRENT_BRANCH" --title "Merge Test Branch into Main" --body "Automated merge from test branch because tests passed" --json url --jq '.url')
-            echo "Pull request created: $PR_URL"
-            gh pr merge "$PR_URL" --auto --merge
+            PR_OUTPUT=$(gh pr create --base main --head "$CURRENT_BRANCH" --title "Merge Test Branch into Main" --body "Automated merge from test branch because tests passed")
+            echo "Pull request created: $PR_OUTPUT"
           fi
 
   deploy:
