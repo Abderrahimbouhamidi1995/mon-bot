@@ -21,4 +21,5 @@
     # ---- Production Stage ----
     FROM base AS prod
     EXPOSE 5005
+    ENTRYPOINT []
     CMD ["rasa", "run", "--port", "5005", "--model", "/app/models", "--enable-api", "--cors", "*", "--debug"]
