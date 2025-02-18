@@ -20,6 +20,7 @@ responses:
   utter_utilisation:
     - text: |-
         Je suis utile pour répondre aux questions et automatiser certaines tâches !
+
 session_config:
   session_expiration_time: 60
   carry_over_slots_to_new_session: true
