@@ -1,17 +1,14 @@
-# ---- Base Stage ----
+    # ---- Base Stage ----
     FROM rasa/rasa:latest-full AS base
     WORKDIR /app
     
-    # Copier les fichiers essentiels de configuration et les données
     COPY config.yml domain.yml /app/
     COPY data/nlu.yml data/rules.yml /app/data/
     
-    # Copier également les tests et le fichier CSV de test
     COPY tests/ /app/tests/
     COPY requirements.txt /app/
     COPY .git /app/.git
     
-    # Installer Git et les certificats CA, ainsi que les dépendances supplémentaires
     USER root
     RUN apt-get update && apt-get install -y git ca-certificates && update-ca-certificates
     RUN pip install --no-cache-dir --upgrade pip && pip install --no-cache-dir -r requirements.txt
