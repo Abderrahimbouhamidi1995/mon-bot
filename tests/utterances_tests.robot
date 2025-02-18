@@ -8,7 +8,7 @@ Library           String
 ${API_URL}        http://localhost:5005/webhooks/rest/webhook
 ${SENDER}         test_user
 ${CSV_FILE}       /app/tests/testdata.csv
-${CSV_OUTPUT}     /tests/test_results.csv
+${CSV_OUTPUT}     /app/tests/test_results.csv
 
 *** Test Cases ***
 Lire et Tester Toutes les Utterances
