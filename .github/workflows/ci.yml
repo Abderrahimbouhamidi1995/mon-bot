@@ -88,6 +88,9 @@ jobs:
             PR_OUTPUT=$(gh pr create --base main --head "$CURRENT_BRANCH" --title "Merge Test Branch into Main" --body "Automated merge from test branch because tests passed")
             echo "Pull request created: $PR_OUTPUT"
           fi
+        env:
+          PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
+          GH_TOKEN: ${{ github.token }}
 
   deploy:
     name: Deploy Rasa Bot Container
