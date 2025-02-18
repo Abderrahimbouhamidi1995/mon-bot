@@ -55,6 +55,7 @@ jobs:
         run: |
           echo "Listing files in tests directory:"; ls -la tests
           RESULT_FILE=$(find . -type f -name test_results.csv | head -n 1)
+          cat "$RESULT_FILE"
           echo "Found test results file: $RESULT_FILE"
           if [ -n "$RESULT_FILE" ] && grep -Fq "Incorrect" "$RESULT_FILE"; then
             echo "Rolling back last commit..."
