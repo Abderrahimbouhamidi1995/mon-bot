@@ -7,7 +7,7 @@
     
     COPY tests/ /app/tests/
     COPY requirements.txt /app/
-    COPY .git /app/.git
+    # COPY .git /app/.git
     
     USER root
     RUN apt-get update && apt-get install -y git ca-certificates && update-ca-certificates
