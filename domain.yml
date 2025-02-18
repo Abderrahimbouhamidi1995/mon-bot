@@ -15,7 +15,7 @@ responses:
 
   utter_fonctionnement:
     - text: |-
-        Je fonctionne avec une intelligence artificielle qui comprend tes messages et y répond !
+        Tu fonctionne avec une intelligence artificielle qui comprend tes messages et y répond !
 
   utter_utilisation:
     - text: |-
