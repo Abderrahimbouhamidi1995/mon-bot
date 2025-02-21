@@ -3,7 +3,7 @@ name: CI/CD for Rasa Bot with Docker Compose
 on:
   push:
     branches:
-      - main
+      - test
 
 jobs:
   build_and_test:
@@ -69,17 +69,33 @@ jobs:
           RESULT_FILE=$(find . -type f -name test_results.csv | head -n 1)
           cat "$RESULT_FILE"
           echo "Found test results file: $RESULT_FILE"
+          git config --global user.email "a.bouhamidi@outlook.com"
+          git config --global user.name "Abderrahimbouhamidi1995"
           if [ -n "$RESULT_FILE" ] && grep -Fq "Incorrect" "$RESULT_FILE"; then
+            BRANCH_NAME="test"
+            echo "Creating rollback branch: $BRANCH_NAME"
+            git checkout -b "$BRANCH_NAME"
             echo "Rolling back last commit..."
             git reset --hard HEAD~1
-            git push origin HEAD --force
             echo "Deleting last trained model from models directory...";
             MODEL_FILE=$(find . -type f -name '*.tar.gz' | sort -r | head -n 1);
             echo "Deleting model file: $MODEL_FILE";
             rm -f "$MODEL_FILE";
+            git push origin HEAD --force
           else
             echo "No rollback needed.";
+            echo "Test results do NOT contain 'Incorrect'. Creating pull request to merge test branch into main...";
+            CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
+            echo "Current branch: $CURRENT_BRANCH"
+            git add .
+            git commit -m "Prepare PR merge"
+            PR_OUTPUT=$(gh pr create --base main --head "$CURRENT_BRANCH" --title "Merge Test Branch into Main" --body "Automated merge from test branch because tests passed")
+            echo "Pull request created: $PR_OUTPUT"
+            gh pr merge "$PR_OUTPUT" --merge
           fi
+        env:
+          PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
+          GH_TOKEN: ${{ secrets.PAT_TOKEN }}
 
   deploy:
     name: Deploy Rasa Bot Container
