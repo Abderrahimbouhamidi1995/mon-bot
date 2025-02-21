@@ -87,6 +87,7 @@ jobs:
             echo "Current branch: $CURRENT_BRANCH"
             PR_OUTPUT=$(gh pr create --base main --head "$CURRENT_BRANCH" --title "Merge Test Branch into Main" --body "Automated merge from test branch because tests passed")
             echo "Pull request created: $PR_OUTPUT"
+            gh pr merge "$PR_OUTPUT" --auto --merge
           fi
         env:
           PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
