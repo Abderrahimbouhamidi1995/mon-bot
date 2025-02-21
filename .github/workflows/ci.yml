@@ -95,7 +95,7 @@ jobs:
           fi
         env:
           PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
-          GH_TOKEN: ${{ github.token }}
+          GH_TOKEN: ${{ secrets.PAT_TOKEN }}
 
   deploy:
     name: Deploy Rasa Bot Container
