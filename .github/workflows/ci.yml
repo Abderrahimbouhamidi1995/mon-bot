@@ -85,6 +85,8 @@ jobs:
             echo "Test results do NOT contain 'Incorrect'. Creating pull request to merge test branch into main...";
             CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
             echo "Current branch: $CURRENT_BRANCH"
+            git add .
+            git commit -m "Prepare PR merge"
             PR_OUTPUT=$(gh pr create --base main --head "$CURRENT_BRANCH" --title "Merge Test Branch into Main" --body "Automated merge from test branch because tests passed")
             echo "Pull request created: $PR_OUTPUT"
             gh pr merge "$PR_OUTPUT" --auto --merge
