@@ -69,6 +69,8 @@ jobs:
           RESULT_FILE=$(find . -type f -name test_results.csv | head -n 1)
           cat "$RESULT_FILE"
           echo "Found test results file: $RESULT_FILE"
+          git config --global user.email "a.bouhamidi@outlook.com"
+          git config --global user.name "Abderrahimbouhamidi1995"
           if [ -n "$RESULT_FILE" ] && grep -Fq "Incorrect" "$RESULT_FILE"; then
             BRANCH_NAME="test"
             echo "Creating rollback branch: $BRANCH_NAME"
