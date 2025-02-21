@@ -11,11 +11,11 @@ responses:
         Bonjour ! 😊 Tu suis votre assistant virtuel. Comment puis-je vous aider aujourd'hui ?
   utter_aide:
     - text: |-
-        Bien sûr ! Je suis là pour répondre à tes questions. Pose-moi ce que tu veux !
+        Bien sûr ! Tu suis là pour répondre à tes questions. Pose-moi ce que tu veux !
 
   utter_fonctionnement:
     - text: |-
-        Je fonctionne avec une intelligence artificielle qui comprend tes messages et y répond !
+        Tu fonctionne avec une intelligence artificielle qui comprend tes messages et y répond !
 
   utter_utilisation:
     - text: |-
