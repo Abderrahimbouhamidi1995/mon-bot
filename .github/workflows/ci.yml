@@ -93,12 +93,21 @@ jobs:
             echo "Current branch: $CURRENT_BRANCH"
             git add .
             git commit -m "Prepare PR merge"
-            git fetch origin test
-            NEW_SHA=$(git rev-parse origin/test)
-            gh pr merge "$PR_OUTPUT" --merge --match-head-commit "$NEW_SHA"
+            git push origin "$CURRENT_BRANCH"
+            
+            # Créer la pull request et récupérer son identifiant
             PR_OUTPUT=$(gh pr create --base main --head "$CURRENT_BRANCH" --title "Merge Test Branch into Main" --body "Automated merge from test branch because tests passed")
             echo "Pull request created: $PR_OUTPUT"
-            gh pr merge "$PR_OUTPUT" --merge --match-head-commit "$(git rev-parse HEAD)"
+            
+            # Attendre un instant pour que GitHub mette à jour la PR
+            sleep 5
+            
+            # Récupérer le SHA actuel de la tête de la PR depuis GitHub
+            HEAD_SHA=$(gh pr view "$PR_OUTPUT" --json headRefOid -q ".headRefOid")
+            echo "Merging PR with HEAD commit: $HEAD_SHA"
+            
+            # Fusionner la pull request en s'assurant que la tête correspond bien
+            gh pr merge "$PR_OUTPUT" --merge --match-head-commit "$HEAD_SHA"
           fi
         env:
           PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
