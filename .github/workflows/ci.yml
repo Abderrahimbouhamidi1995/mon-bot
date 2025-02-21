@@ -72,11 +72,13 @@ jobs:
           git config --global user.email "a.bouhamidi@outlook.com"
           git config --global user.name "Abderrahimbouhamidi1995"
           if [ -n "$RESULT_FILE" ] && grep -Fq "Incorrect" "$RESULT_FILE"; then
-            BRANCH_NAME="test"
-            echo "Creating rollback branch: $BRANCH_NAME"
-            git checkout -b "$BRANCH_NAME"
-            echo "Rolling back last commit..."
-            git reset --hard HEAD~1
+            # BRANCH_NAME="test"
+            # echo "Creating rollback branch: $BRANCH_NAME"
+            # git checkout -b "$BRANCH_NAME"
+            # echo "Rolling back last commit..."
+            # git reset --hard HEAD~1
+            echo "Merci de corriger les bugs detecté"
+            cat "$RESULT_FILE"
             echo "Deleting last trained model from models directory...";
             MODEL_FILE=$(find . -type f -name '*.tar.gz' | sort -r | head -n 1);
             echo "Deleting model file: $MODEL_FILE";
