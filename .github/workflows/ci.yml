@@ -65,10 +65,9 @@ jobs:
       
       - name: Rollback last commit
         run: |
-          echo "Listing files in tests directory:"; ls -la tests
+          # echo "Listing files in tests directory:"; ls -la tests
           RESULT_FILE=$(find . -type f -name test_results.csv | head -n 1)
-          cat "$RESULT_FILE"
-          echo "Found test results file: $RESULT_FILE"
+          # echo "Found test results file: $RESULT_FILE"
           git config --global user.email "a.bouhamidi@outlook.com"
           git config --global user.name "Abderrahimbouhamidi1995"
           if [ -n "$RESULT_FILE" ] && grep -Fq "Incorrect" "$RESULT_FILE"; then
@@ -77,7 +76,7 @@ jobs:
             # git checkout -b "$BRANCH_NAME"
             # echo "Rolling back last commit..."
             # git reset --hard HEAD~1
-            echo "Merci de corriger les bugs detecté"
+            echo "Merci de corriger les bugs detectés: "
             cat "$RESULT_FILE"
             echo "Deleting last trained model from models directory...";
             MODEL_FILE=$(find . -type f -name '*.tar.gz' | sort -r | head -n 1);
@@ -85,7 +84,8 @@ jobs:
             rm -f "$MODEL_FILE";
             git push origin HEAD --force
           else
-            echo "No rollback needed.";
+            echo "Parfait. aucun bug n a été detecté: ";
+            cat "$RESULT_FILE"
             echo "Test results do NOT contain 'Incorrect'. Creating pull request to merge test branch into main...";
             CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
             echo "Current branch: $CURRENT_BRANCH"
