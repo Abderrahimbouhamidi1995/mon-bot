@@ -93,9 +93,12 @@ jobs:
             echo "Current branch: $CURRENT_BRANCH"
             git add .
             git commit -m "Prepare PR merge"
+            git fetch origin test
+            NEW_SHA=$(git rev-parse origin/test)
+            gh pr merge "$PR_OUTPUT" --merge --match-head-commit "$NEW_SHA"
             PR_OUTPUT=$(gh pr create --base main --head "$CURRENT_BRANCH" --title "Merge Test Branch into Main" --body "Automated merge from test branch because tests passed")
             echo "Pull request created: $PR_OUTPUT"
-            gh pr merge "$PR_OUTPUT" --merge
+            gh pr merge "$PR_OUTPUT" --merge --match-head-commit "$(git rev-parse HEAD)"
           fi
         env:
           PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
