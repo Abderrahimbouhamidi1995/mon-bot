@@ -78,8 +78,8 @@ jobs:
             # git reset --hard HEAD~1
             echo "Merci de corriger les bugs detectés: "
             cat "$RESULT_FILE"
+            echo "   "
             echo "Deleting last trained model from models directory...";
-            echo ""
             MODEL_FILE=$(find . -type f -name '*.tar.gz' | sort -r | head -n 1);
             echo "Deleting model file: $MODEL_FILE";
             rm -f "$MODEL_FILE";
@@ -87,6 +87,7 @@ jobs:
           else
             echo "Parfait. aucun bug n a été detecté: ";
             cat "$RESULT_FILE"
+            echo "   "
             echo "Test results do NOT contain 'Incorrect'. Creating pull request to merge test branch into main...";
             CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
             echo "Current branch: $CURRENT_BRANCH"
