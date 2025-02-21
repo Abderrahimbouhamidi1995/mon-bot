@@ -79,6 +79,7 @@ jobs:
             echo "Merci de corriger les bugs detectés: "
             cat "$RESULT_FILE"
             echo "Deleting last trained model from models directory...";
+            echo ""
             MODEL_FILE=$(find . -type f -name '*.tar.gz' | sort -r | head -n 1);
             echo "Deleting model file: $MODEL_FILE";
             rm -f "$MODEL_FILE";
