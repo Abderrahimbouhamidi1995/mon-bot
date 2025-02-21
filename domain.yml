@@ -8,18 +8,18 @@ intents:
 responses:
   utter_salut:
     - text: |-
-        Bonjour ! 😊 Je suis votre assistant virtuel. Comment puis-je vous aider aujourd'hui ?
+        Bonjour ! 😊 Tu suis votre assistant virtuel. Comment puis-je vous aider aujourd'hui ?
   utter_aide:
     - text: |-
-        Bien sûr ! Je suis là pour répondre à tes questions. Pose-moi ce que tu veux !
+        Bien sûr ! Tu suis là pour répondre à tes questions. Pose-moi ce que tu veux !
 
   utter_fonctionnement:
     - text: |-
-        Je fonctionne avec une intelligence artificielle qui comprend tes messages et y répond !
+        Tu fonctionne avec une intelligence artificielle qui comprend tes messages et y répond !
 
   utter_utilisation:
     - text: |-
-        Je suis utile pour répondre aux questions et automatiser certaines tâches !
+        Tu suis utile pour répondre aux questions et automatiser certaines tâches !
 
 session_config:
   session_expiration_time: 60

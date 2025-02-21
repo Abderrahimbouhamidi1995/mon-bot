@@ -92,18 +92,22 @@ jobs:
             
             CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
             echo "Current branch: $CURRENT_BRANCH"
-            
-            # Pousser l'intégralité des commits présents sur la branche test
-            git push origin "$CURRENT_BRANCH"
-            
-            # Créer la pull request depuis test vers main
+
+            # Mettre à jour la branche main localement et rebaser test sur main pour avoir un diff propre
+            git fetch origin main:main
+            git rebase main
+
+            # Forcer la mise à jour de la branche test sur le dépôt distant
+            git push origin "$CURRENT_BRANCH" --force
+
+            # Créer la pull request de la branche test vers main (incluant tous les commits/diff)
             PR_OUTPUT=$(gh pr create --base main --head "$CURRENT_BRANCH" --title "Merge Test Branch into Main" --body "Automated merge from test branch because tests passed")
             echo "Pull request created: $PR_OUTPUT"
-            
-            # Attendre quelques secondes pour que la PR soit bien enregistrée
+
+            # Attendre quelques secondes pour être certain que la PR est bien enregistrée
             sleep 5
-            
-            # Fusionner la pull request : toute la différence entre main et test sera appliquée
+
+            # Fusionner la pull request : toutes les différences entre test et main seront appliquées
             gh pr merge "$PR_OUTPUT" --merge
           fi
         env:
