@@ -8,7 +8,7 @@ intents:
 responses:
   utter_salut:
     - text: |-
-        Bonjour ! 😊 Tu suis votre assistant virtuel. Comment puis-je vous aider aujourd'hui ?
+        Bonjour ! 😊 Je suis votre assistant virtuel. Comment puis-je vous aider aujourd'hui ?
   utter_aide:
     - text: |-
         Bien sûr ! Je suis là pour répondre à tes questions. Pose-moi ce que tu veux !
