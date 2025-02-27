@@ -65,15 +65,14 @@ jobs:
       
       - name: Rollback last commit or Merge Test Branch
         run: |
+          git config --global user.email "a.bouhamidi@outlook.com"
+          git config --global user.name "Abderrahimbouhamidi1995"
           if [ -n "$(git status --porcelain)" ]; then
             echo "Uncommitted changes found. Adding and committing them..."
             git add .
             git commit -m "Commit pending changes before merge PR"
           fi
-
           RESULT_FILE=$(find . -type f -name test_results.csv | head -n 1)
-          git config --global user.email "a.bouhamidi@outlook.com"
-          git config --global user.name "Abderrahimbouhamidi1995"
           
           if [ -n "$RESULT_FILE" ] && grep -Fq "Incorrect" "$RESULT_FILE"; then
             # BRANCH_NAME="test"
