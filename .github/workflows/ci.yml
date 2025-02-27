@@ -63,26 +63,31 @@ jobs:
         with:
           name: models
       
-      - name: Rollback last commit
+      - name: Rollback last commit or Merge Test Branch
         run: |
-          # echo "Listing files in tests directory:"; ls -la tests
+          if [ -n "$(git status --porcelain)" ]; then
+            echo "Uncommitted changes found. Adding and committing them..."
+            git add .
+            git commit -m "Commit pending changes before merge PR"
+          fi
+
           RESULT_FILE=$(find . -type f -name test_results.csv | head -n 1)
-          # echo "Found test results file: $RESULT_FILE"
           git config --global user.email "a.bouhamidi@outlook.com"
           git config --global user.name "Abderrahimbouhamidi1995"
+          
           if [ -n "$RESULT_FILE" ] && grep -Fq "Incorrect" "$RESULT_FILE"; then
             # BRANCH_NAME="test"
             # echo "Creating rollback branch: $BRANCH_NAME"
             # git checkout -b "$BRANCH_NAME"
             # echo "Rolling back last commit..."
             # git reset --hard HEAD~1
-            echo "Merci de corriger les bugs detectés: "
-            cat "$RESULT_FILE"
-            echo "   "
-            echo "Deleting last trained model from models directory...";
-            MODEL_FILE=$(find . -type f -name '*.tar.gz' | sort -r | head -n 1);
-            echo "Deleting model file: $MODEL_FILE";
-            rm -f "$MODEL_FILE";
+            echo "Merci de corriger les bugs détectés :"
+            grep "Incorrect" "$RESULT_FILE"
+            echo ""
+            echo "Deleting last trained model from models directory..."
+            MODEL_FILE=$(find . -type f -name '*.tar.gz' | sort -r | head -n 1)
+            echo "Deleting model file: $MODEL_FILE"
+            rm -f "$MODEL_FILE"
             git push origin HEAD --force
           else
             echo "Parfait. Aucun bug n'a été détecté :"
@@ -93,21 +98,17 @@ jobs:
             CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
             echo "Current branch: $CURRENT_BRANCH"
 
-            # Mettre à jour la branche main localement et rebaser test sur main pour avoir un diff propre
+            # Mettre à jour la branche main localement et rebaser test sur main pour obtenir un diff complet
             git fetch origin main:main
             git rebase main
 
             # Forcer la mise à jour de la branche test sur le dépôt distant
             git push origin "$CURRENT_BRANCH" --force
 
-            # Créer la pull request de la branche test vers main (incluant tous les commits/diff)
+            # Créer la pull request depuis test vers main (incluant tous les commits/diff)
             PR_OUTPUT=$(gh pr create --base main --head "$CURRENT_BRANCH" --title "Merge Test Branch into Main" --body "Automated merge from test branch because tests passed")
             echo "Pull request created: $PR_OUTPUT"
-
-            # Attendre quelques secondes pour être certain que la PR est bien enregistrée
             sleep 5
-
-            # Fusionner la pull request : toutes les différences entre test et main seront appliquées
             gh pr merge "$PR_OUTPUT" --merge
           fi
         env:
