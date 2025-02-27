@@ -16,6 +16,7 @@ nlu:
     - bonjour
     - bonsoir
     - bon après-mid
+    - slt
 
 - intent: aide
   examples: |
