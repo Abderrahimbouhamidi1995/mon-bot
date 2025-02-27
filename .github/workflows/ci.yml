@@ -109,6 +109,36 @@ jobs:
             echo "Pull request created: $PR_OUTPUT"
             sleep 5
             gh pr merge "$PR_OUTPUT" --merge
+
+            echo "Switching to main branch..."
+            git fetch origin main
+            git checkout main
+
+            # Si un fichier modèle (.tar.gz) existe, le copier dans le répertoire models (à créer si nécessaire) et le renommer
+            MODEL_FILE=$(find . -type f -name '*.tar.gz' | sort -r | head -n 1)
+            if [ -n "$MODEL_FILE" ]; then
+              echo "Model file found: $MODEL_FILE"
+              if [ ! -d "models" ]; then
+                mkdir -p models
+              fi
+              cp "$MODEL_FILE" models/awb-fr.tar.gz
+              echo "Model file copied and renamed to models/awb-fr.tar.gz"
+            fi
+
+            # Si le fichier test_results.csv existe, le copier dans le répertoire tests (à créer si nécessaire)
+            if [ -f "$RESULT_FILE" ]; then
+              echo "Test results file found: $RESULT_FILE"
+              if [ ! -d "tests" ]; then
+                mkdir -p tests
+              fi
+              cp "$RESULT_FILE" tests/test_results.csv
+              echo "Test results file copied to tests/test_results.csv"
+            fi
+
+            # Committer et pousser ces modifications sur la branche main
+            git add models/awb-fr.tar.gz tests/test_results.csv
+            git commit -m "Update model and test results files"
+            git push origin main
           fi
         env:
           PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
