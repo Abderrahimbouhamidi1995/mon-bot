@@ -93,52 +93,44 @@ jobs:
             cat "$RESULT_FILE"
             echo ""
             echo "Test results do NOT contain 'Incorrect'. Creating pull request to merge test branch into main..."
-            
+    
             CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
+            
             echo "Current branch: $CURRENT_BRANCH"
-
-            # Mettre à jour la branche main localement et rebaser test sur main pour obtenir un diff complet
             git fetch origin main:main
             git rebase main
-
-            # Forcer la mise à jour de la branche test sur le dépôt distant
             git push origin "$CURRENT_BRANCH" --force
-
-            # Créer la pull request depuis test vers main (incluant tous les commits/diff)
             PR_OUTPUT=$(gh pr create --base main --head "$CURRENT_BRANCH" --title "Merge Test Branch into Main" --body "Automated merge from test branch because tests passed")
             echo "Pull request created: $PR_OUTPUT"
             sleep 5
             gh pr merge "$PR_OUTPUT" --merge
 
-            echo "Switching to main branch..."
-            git fetch origin main
-            git checkout main
+            # git fetch origin main
+            # git checkout main
 
-            # Si un fichier modèle (.tar.gz) existe, le copier dans le répertoire models (à créer si nécessaire) et le renommer
-            MODEL_FILE=$(find . -type f -name '*.tar.gz' | sort -r | head -n 1)
-            if [ -n "$MODEL_FILE" ]; then
-              echo "Model file found: $MODEL_FILE"
-              if [ ! -d "models" ]; then
-                mkdir -p models
-              fi
-              cp "$MODEL_FILE" models/awb-fr.tar.gz
-              echo "Model file copied and renamed to models/awb-fr.tar.gz"
-            fi
+            # MODEL_FILE=$(find . -type f -name '*.tar.gz' | sort -r | head -n 1)
+            # if [ -n "$MODEL_FILE" ]; then
+            #   echo "Model file found: $MODEL_FILE"
+            #   if [ ! -d "models" ]; then
+            #     mkdir -p models
+            #   fi
+            #   cp "$MODEL_FILE" models/awb-fr.tar.gz
+            #   echo "Model file copied and renamed to models/awb-fr.tar.gz"
+            # fi
 
-            # Si le fichier test_results.csv existe, le copier dans le répertoire tests (à créer si nécessaire)
-            if [ -f "$RESULT_FILE" ]; then
-              echo "Test results file found: $RESULT_FILE"
-              if [ ! -d "tests" ]; then
-                mkdir -p tests
-              fi
-              cp "$RESULT_FILE" tests/test_results.csv
-              echo "Test results file copied to tests/test_results.csv"
-            fi
+            # if [ -f "$RESULT_FILE" ]; then
+            #   echo "Test results file found: $RESULT_FILE"
+            #   if [ ! -d "tests" ]; then
+            #     mkdir -p tests
+            #   fi
+            #   cp "$RESULT_FILE" tests/test_results.csv
+            #   echo "Test results file copied to tests/test_results.csv"
+            # fi
 
-            # Committer et pousser ces modifications sur la branche main
-            git add models/awb-fr.tar.gz tests/test_results.csv
-            git commit -m "Update model and test results files"
-            git push origin main
+            # # Committer et pousser ces modifications sur la branche main
+            # git add models/awb-fr.tar.gz tests/test_results.csv
+            # git commit -m "Update model and test results files"
+            # git push origin main
           fi
         env:
           PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
